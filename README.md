@@ -26,7 +26,6 @@ The system demonstrates distributed communication using the Publish-Subscribe ar
 - Analytics charts
 - Severity-based alerts
 - SQLite database logging
-- Professional UI dashboard
 
 ---
 
