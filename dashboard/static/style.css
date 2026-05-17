@@ -1,0 +1,193 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  background: #F5F4F1;
+  color: #1a1a1a;
+  font-size: 14px;
+}
+
+.dash {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 28px;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #DDD9D0;
+  margin-bottom: 24px;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+
+.logo-mark {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  background: #1C3D5A;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 16px; height: 16px; fill: #A8C8E8; }
+
+.sys-title {
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #1C3D5A;
+  text-transform: uppercase;
+}
+.sys-sub { font-size: 11px; color: #8A8680; margin-top: 2px; }
+
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+
+.live-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600;
+  color: #1E6633; letter-spacing: 0.06em;
+}
+.live-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #1E6633;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+.ts { font-size: 11px; color: #8A8680; }
+
+/* METRIC CARDS */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.metric-card {
+  background: #fff;
+  border: 1px solid #E0DDD6;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.metric-icon {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.metric-icon svg { width: 19px; height: 19px; }
+.metric-icon.traffic  { background: #EBF2FB; }
+.metric-icon.pollution{ background: #E8F4ED; }
+.metric-icon.weather  { background: #FEF3E8; }
+
+.metric-val {
+  font-size: 28px; font-weight: 600;
+  color: #1a1a1a; line-height: 1;
+}
+.metric-label {
+  font-size: 11px; color: #7A7672;
+  margin-top: 4px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* MAIN GRID: chart + feed */
+.main-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* PANELS */
+.panel {
+  background: #fff;
+  border: 1px solid #E0DDD6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.panel-header {
+  padding: 11px 16px;
+  border-bottom: 1px solid #EDEBE6;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.07em;
+  color: #4A4742;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 0;
+}
+.panel-meta { font-size: 11px; color: #9A9690; }
+.panel-body { padding: 14px 16px; }
+
+/* CHART */
+.chart-wrap { position: relative; height: 185px; }
+
+/* DEPT GRID */
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* ALERT ROWS */
+.alert-list { display: flex; flex-direction: column; gap: 7px; }
+
+.alert-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 6px;
+  background: #FAFAF8;
+  border: 1px solid #EDEBE6;
+}
+.alert-row-left { flex: 1; min-width: 0; }
+.alert-msg {
+  font-size: 12px; color: #2A2825;
+  line-height: 1.45;
+  white-space: normal;
+}
+.alert-time { font-size: 10px; color: #9A9690; margin-top: 3px; }
+
+/* SEVERITY BADGES */
+.sev-badge {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.sev-low      { background: #E8F4ED; color: #1A5C2E; }
+.sev-medium   { background: #FEF3E8; color: #9A4E0D; }
+.sev-high     { background: #FDE8DB; color: #852A10; }
+.sev-critical { background: #FCEBEB; color: #7A1F1F; border: 1px solid #F0CCCC; }
+
+/* DEPT DOTS */
+.dept-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+.dot-traffic   { background: #1C5FA8; }
+.dot-pollution { background: #1E7A40; }
+.dot-weather   { background: #C4621A; }
+
+/* FOOTER */
+.footer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid #DDD9D0;
+  font-size: 11px;
+  color: #9A9690;
+}

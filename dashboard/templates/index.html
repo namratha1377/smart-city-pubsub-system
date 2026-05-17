@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart City Event System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dash">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="logo-mark">
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sys-title">Smart City Event System</div>
+        <div class="sys-sub">Unified Monitoring &amp; Alert Management</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+      <div class="ts" id="clock">—</div>
+    </div>
+  </div>
+
+  <!-- METRIC CARDS -->
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-icon traffic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1C5FA8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17l2-10h14l2 10M3 17h18M7 17v2M17 17v2M9 11h6"/>
+        </svg>
+      </div>
+      <div class="metric-body">
+        <div class="metric-val" id="trafficCount">{{ traffic_count }}</div>
+        <div class="metric-label">Traffic Alerts</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon pollution">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1E7A40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7z"/>
+        </svg>
+      </div>
+      <div class="metric-body">
+        <div class="metric-val" id="pollutionCount">{{ pollution_count }}</div>
+        <div class="metric-label">Pollution Alerts</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon weather">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C4621A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 15.25"/>
+          <line x1="8" y1="16" x2="8.01" y2="16"/>
+          <line x1="12" y1="18" x2="12.01" y2="18"/>
+          <line x1="16" y1="16" x2="16.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="metric-body">
+        <div class="metric-val" id="weatherCount">{{ weather_count }}</div>
+        <div class="metric-label">Weather Alerts</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART + COMBINED FEED -->
+  <div class="main-grid">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Alert Distribution</div>
+        <div class="panel-meta">Last 24 hrs</div>
+      </div>
+      <div class="panel-body">
+        <div class="chart-wrap">
+          <canvas id="alertsChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Recent Alerts — All Departments</div>
+        <div class="panel-meta">Sorted by recency</div>
+      </div>
+      <div class="panel-body">
+        <div class="alert-list">
+          {% for event in (traffic_events + pollution_events + weather_events)|sort(attribute=2, reverse=True) %}
+          <div class="alert-row">
+            <div class="alert-row-left">
+              <div class="alert-msg">{{ event[3] }}</div>
+              <div class="alert-time">{{ event[2] }}</div>
+            </div>
+            <span class="sev-badge sev-{{ event[4]|lower }}">{{ event[4]|upper }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPARTMENT PANELS -->
+  <div class="dept-grid">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title"><span class="dept-dot dot-traffic"></span>Traffic Department</div>
+        <div class="panel-meta">{{ traffic_count }} events</div>
+      </div>
+      <div class="panel-body">
+        <div class="alert-list">
+          {% for event in traffic_events %}
+          <div class="alert-row">
+            <div class="alert-row-left">
+              <div class="alert-msg">{{ event[3] }}</div>
+              <div class="alert-time">{{ event[2] }}</div>
+            </div>
+            <span class="sev-badge sev-{{ event[4]|lower }}">{{ event[4]|upper }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title"><span class="dept-dot dot-pollution"></span>Health Department</div>
+        <div class="panel-meta">{{ pollution_count }} events</div>
+      </div>
+      <div class="panel-body">
+        <div class="alert-list">
+          {% for event in pollution_events %}
+          <div class="alert-row">
+            <div class="alert-row-left">
+              <div class="alert-msg">{{ event[3] }}</div>
+              <div class="alert-time">{{ event[2] }}</div>
+            </div>
+            <span class="sev-badge sev-{{ event[4]|lower }}">{{ event[4]|upper }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title"><span class="dept-dot dot-weather"></span>Disaster Management</div>
+        <div class="panel-meta">{{ weather_count }} events</div>
+      </div>
+      <div class="panel-body">
+        <div class="alert-list">
+          {% for event in weather_events %}
+          <div class="alert-row">
+            <div class="alert-row-left">
+              <div class="alert-msg">{{ event[3] }}</div>
+              <div class="alert-time">{{ event[2] }}</div>
+            </div>
+            <span class="sev-badge sev-{{ event[4]|lower }}">{{ event[4]|upper }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <span>Smart City Ops Centre — Unified Event Platform</span>
+    <span>Data pipeline: operational &nbsp;·&nbsp; DB sync: active</span>
+  </div>
+
+</div>
+
+<script>
+  // Clock
+  function tick() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      'Last updated: ' + now.toLocaleTimeString();
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Chart
+  const tc = parseInt(document.getElementById('trafficCount').innerText) || 0;
+  const pc = parseInt(document.getElementById('pollutionCount').innerText) || 0;
+  const wc = parseInt(document.getElementById('weatherCount').innerText) || 0;
+
+  new Chart(document.getElementById('alertsChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Traffic', 'Health', 'Disaster'],
+      datasets: [{
+        label: 'Active Alerts',
+        data: [tc, pc, wc],
+        backgroundColor: ['#DCEAF8', '#D6EDE0', '#FDE8D4'],
+        borderColor: ['#1C5FA8', '#1E7A40', '#C4621A'],
+        borderWidth: 1.5,
+        borderRadius: 5,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 11 }, color: '#7A7672' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: '#EEECE8' },
+          ticks: { font: { size: 11 }, color: '#7A7672', stepSize: 1 },
+          border: { display: false }
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
