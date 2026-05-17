@@ -96,37 +96,95 @@ Each subscriber receives only relevant alerts.
 
 ---
 
-# How To Run
+# How To Run The Project
 
-## Start MQTT Broker
+## Step 1 — Start MQTT Broker
 
 ```bash
-mosquitto -v 
+mosquitto -v
+```
 
-Start Publishers 
-python publishers/traffic_sensor.py 
-python publishers/pollution_sensor.py 
-python publishers/weather_sensor.py 
+---
 
-Start Subscribers  
-python subscribers/traffic_department.py  
-python subscribers/health_department.py 
-python subscribers/disaster_management.py  
+## Step 2 — Start Publishers
 
-Start Dashboard  
+### Traffic Publisher
+
+```bash
+python publishers/traffic_sensor.py
+```
+
+### Pollution Publisher
+
+```bash
+python publishers/pollution_sensor.py
+```
+
+### Weather Publisher
+
+```bash
+python publishers/weather_sensor.py
+```
+
+---
+
+## Step 3 — Start Subscribers
+
+### Traffic Department
+
+```bash
+python subscribers/traffic_department.py
+```
+
+### Health Department
+
+```bash
+python subscribers/health_department.py
+```
+
+### Disaster Management
+
+```bash
+python subscribers/disaster_management.py
+```
+
+---
+
+## Step 4 — Start Dashboard
+
+```bash
 cd dashboard
-python app.py  
+python app.py
+```
 
-Open browser: 
-http://127.0.0.1:5000 
+---
 
-System Architecture
+## Step 5 — Open Browser
 
-Sensors → MQTT Broker → Subscribers → Dashboard  
+```text
+http://127.0.0.1:5000
+```
 
-Future Enhancements
-Real-time WebSocket updates
-Mobile notifications
-AI-based prediction system
-Cloud deployment
-Smart emergency response
+---
+
+# System Architecture
+
+```text
+Sensors
+   ↓
+MQTT Broker
+   ↓
+Subscribers
+   ↓
+Dashboard
+```
+
+---
+
+# Future Enhancements
+
+- AI-based prediction system
+- Mobile notifications
+- Cloud deployment
+- Real-time WebSocket updates
+- Smart emergency response
